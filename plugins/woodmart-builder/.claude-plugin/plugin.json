@@ -1,0 +1,12 @@
+{
+  "name": "woodmart-builder",
+  "version": "1.0.0",
+  "description": "Builds WoodMart (WordPress) pages from Figma or screenshots over MCP, using WoodMart, WPBakery, WooCommerce and WordPress elements. Supports multiple sites side by side.",
+  "author": {
+    "name": "omarkh7"
+  },
+  "homepage": "https://github.com/omarkh7/ClaudeWoodmartMcp",
+  "repository": "https://github.com/omarkh7/ClaudeWoodmartMcp",
+  "license": "MIT",
+  "keywords": ["wordpress", "woodmart", "wpbakery", "woocommerce", "figma", "mcp"]
+}

@@ -1,0 +1,20 @@
+{
+  "name": "woodmart-builder",
+  "owner": {
+    "name": "omarkh7"
+  },
+  "metadata": {
+    "description": "Claude Code skill that builds WoodMart (WordPress) pages from Figma or screenshots over MCP, using WoodMart, WPBakery, WooCommerce and WordPress elements.",
+    "version": "1.0.0"
+  },
+  "plugins": [
+    {
+      "name": "woodmart-builder",
+      "source": "./plugins/woodmart-builder",
+      "description": "Connect WoodMart sites via MCP (multi-site), apply global theme settings, and build Draft pages, blog and WooCommerce layouts from a design.",
+      "version": "1.0.0",
+      "category": "productivity",
+      "keywords": ["wordpress", "woodmart", "wpbakery", "woocommerce", "figma", "mcp"]
+    }
+  ]
+}

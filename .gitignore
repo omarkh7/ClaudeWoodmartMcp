@@ -1,0 +1,31 @@
+# --- credentials / real site configs: never commit ---
+*.env
+.env
+.env.*
+*.bak
+*.bak-*
+*credentials*
+*secret*
+*.pem
+*.key
+claude_desktop_config*.json
+*-mcp.json
+*.mcp.json
+.mcp.json
+local/
+private/
+sites/
+
+# the original build prompt (kept locally only)
+woodmart-skill-prompt.md
+
+# --- OS / editor / tooling ---
+.DS_Store
+Thumbs.db
+desktop.ini
+.vscode/
+.idea/
+__pycache__/
+*.pyc
+*.zip
+.claude/settings.local.json
