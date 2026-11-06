@@ -108,7 +108,8 @@ Read `references/global-settings.md` now.
 
 ## Phase 5 — Build pages
 
-Read `references/element-map.md` now; read `references/cf7-forms.md` before the first form and
+Read `references/element-map.md` now. On a **Gutenberg** (`wd/*`) site also read
+`references/gutenberg-abilities.md` before the first write. Read `references/cf7-forms.md` before the first form and
 `references/php-overrides.md` before any PHP. Build **one page at a time**: show the section plan
 (section → element), get approval, build, verify, report, then ask before starting the next page.
 
@@ -161,7 +162,8 @@ After each page: list the created items (title, type, ID, edit link, Draft), the
 
 ## Phase 6 — WooCommerce (only if WooCommerce site)
 
-Read `references/woocommerce-layouts.md` now.
+Read `references/woocommerce-layouts.md` now (and `references/gutenberg-abilities.md` → Layouts on a
+Gutenberg site: `set-layout-conditions` replaces the whole condition set).
 
 Ask which WoodMart **Layouts** to build: Shop/product archive, Single product, Cart, Checkout,
 My Account, Empty cart / Thank-you (if in the design). Build each from the design with WoodMart Woo
@@ -188,6 +190,7 @@ Give the user, headed with `Site: <domain>`:
 | `references/mcp-setup.md` | Phase 1, and any connection problem |
 | `references/global-settings.md` | Phase 4, and before any Theme Settings write |
 | `references/element-map.md` | Phase 5 section planning |
+| `references/gutenberg-abilities.md` | Gutenberg (`wd/*`) sites: before any block, content, layout or logo write |
 | `references/cf7-forms.md` | Before building a form |
 | `references/animation.md` | If the user wants Motion animations |
 | `references/php-overrides.md` | Before handing over any PHP / template override |

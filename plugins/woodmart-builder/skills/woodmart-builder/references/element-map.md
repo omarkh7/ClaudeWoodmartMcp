@@ -10,7 +10,8 @@
 ## Two write paths — use the one agreed in Phase 1
 
 ### A. WoodMart Gutenberg blocks (`wd/*`)
-The `woodmart/*` MCP abilities edit block content. Rules:
+The `woodmart/*` MCP abilities edit block content. Full rules (routing, `blockId`, finalization,
+batches, layouts): `references/gutenberg-abilities.md`. Summary:
 - Discover blocks with `woodmart/gutenberg-list-blocks`, then `woodmart/gutenberg-describe-block` for every
   block you author. Use only attributes the describe call returns — never invent them.
 - Check `woodmart/gutenberg-search-templates` first: a WoodMart library template that matches a section
@@ -20,7 +21,8 @@ The `woodmart/*` MCP abilities edit block content. Rules:
   with `expected_content_hash`). Never rebuild a whole page to change part of it.
 - Block writes are **queued**: ask the user to keep **WoodMart → Tools → AI Block Queue** open in wp-admin,
   follow the response's `user_instruction`, and poll `woodmart/gutenberg-get-pending-batch` until
-  `finalized`. On `conflicted`, re-read and redo.
+  `finalized`. Call `woodmart/gutenberg-enable-finalization` when the batch is still a draft (not after
+  `create-content` with `block_spec`). One pending batch per target. On `conflicted`, re-read and redo.
 - Responsive values and styling: use the block's own responsive/style attributes.
 
 ### B. WPBakery (shortcodes)

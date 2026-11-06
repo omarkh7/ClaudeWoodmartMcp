@@ -17,7 +17,10 @@ fi
 mkdir -p "$DEST_ROOT"
 
 if [ -e "$DEST" ]; then
-  BACKUP="$DEST.bak-$(date +%Y%m%d-%H%M%S)"
+  # keep backups outside the skills folder, or Claude loads them as a second skill
+  BACKUP_ROOT="$(dirname "$DEST_ROOT")/skill-backups"
+  mkdir -p "$BACKUP_ROOT"
+  BACKUP="$BACKUP_ROOT/woodmart-builder.bak-$(date +%Y%m%d-%H%M%S)"
   echo "Existing install found - moving it to $BACKUP"
   mv "$DEST" "$BACKUP"
 fi

@@ -148,7 +148,7 @@ plugins/woodmart-builder/
   commands/start-woodmart-mcp.md         the /start-woodmart-mcp slash command
   skills/woodmart-builder/
     SKILL.md                             workflow (phases + rules)
-    references/                          setup, settings, element map, Woo layouts, CF7, Motion, PHP handoff
+    references/                          setup, settings, element map, Gutenberg ability rules, Woo layouts, CF7, Motion, PHP handoff
     templates/mcp-server-entry.json      placeholder config (no real credentials)
     scripts/add-woodmart-server.py       safe Claude Desktop / Claude Code config merge
 install.sh                               manual installer for macOS/Linux
