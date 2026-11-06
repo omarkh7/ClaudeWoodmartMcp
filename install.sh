@@ -26,4 +26,14 @@ cp -R "$SRC" "$DEST"
 chmod +x "$DEST/scripts/"*.py 2>/dev/null || true
 
 echo "Installed woodmart-builder skill to $DEST"
-echo "Start a new Claude Code session and ask e.g. \"connect a new woodmart site\"."
+
+# Slash command: /start-woodmart-mcp
+CMD_SRC="$REPO_DIR/plugins/woodmart-builder/commands/start-woodmart-mcp.md"
+CMD_DIR="${CLAUDE_COMMANDS_DIR:-$HOME/.claude/commands}"
+if [ -f "$CMD_SRC" ]; then
+  mkdir -p "$CMD_DIR"
+  cp "$CMD_SRC" "$CMD_DIR/start-woodmart-mcp.md"
+  echo "Installed /start-woodmart-mcp command to $CMD_DIR"
+fi
+
+echo "Start a new Claude Code session and type /start-woodmart-mcp"

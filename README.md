@@ -56,6 +56,7 @@ Update later with `/plugin marketplace update woodmart-builder`.
 git clone https://github.com/omarkh7/ClaudeWoodmartMcp.git
 cd ClaudeWoodmartMcp
 ./install.sh          # copies the skill to ~/.claude/skills/woodmart-builder
+                      # and the /start-woodmart-mcp command to ~/.claude/commands
 ```
 
 ### Option 3: Manual install on Windows (PowerShell)
@@ -67,6 +68,8 @@ $dest = "$env:USERPROFILE\.claude\skills\woodmart-builder"
 if (Test-Path $dest) { Rename-Item $dest "$dest.bak-$(Get-Date -Format yyyyMMdd-HHmmss)" }
 New-Item -ItemType Directory -Force "$env:USERPROFILE\.claude\skills" | Out-Null
 Copy-Item -Recurse "plugins\woodmart-builder\skills\woodmart-builder" $dest
+New-Item -ItemType Directory -Force "$env:USERPROFILE\.claude\commands" | Out-Null
+Copy-Item "plugins\woodmart-builder\commands\start-woodmart-mcp.md" "$env:USERPROFILE\.claude\commands\"
 ```
 
 ### Option 4: Claude Desktop / claude.ai (upload the skill)
@@ -77,7 +80,17 @@ Settings → Capabilities → Skills**.
 
 ## Usage
 
-Start a new session and say for example:
+Start a new session and type:
+
+```
+/start-woodmart-mcp
+```
+
+Claude shows the 7 steps, then asks you one question at a time and waits for your answer.
+(If you installed through the plugin marketplace and another command has the same name, use
+`/woodmart-builder:start-woodmart-mcp`.)
+
+You can also just ask in your own words, for example:
 
 > Connect a new WoodMart site and build the home page from my Figma file.
 
@@ -132,6 +145,7 @@ Windows, use the tray icon → Quit) and reopen it.
 .claude-plugin/marketplace.json          marketplace manifest
 plugins/woodmart-builder/
   .claude-plugin/plugin.json             plugin manifest
+  commands/start-woodmart-mcp.md         the /start-woodmart-mcp slash command
   skills/woodmart-builder/
     SKILL.md                             workflow (phases + rules)
     references/                          setup, settings, element map, Woo layouts, CF7, Motion, PHP handoff
