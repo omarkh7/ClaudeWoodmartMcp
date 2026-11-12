@@ -2,47 +2,38 @@
 
 ## Priority
 
-1. **WoodMart elements** and **WPBakery elements** (or WoodMart Gutenberg `wd/*` blocks on block sites)
+1. **WoodMart WPBakery elements** and **WPBakery elements** — never Gutenberg / `wd/*` blocks (SKILL.md rule 9)
 2. **WooCommerce** elements / shortcodes
-3. **WordPress** widgets / core blocks
+3. **WordPress** widgets (as WPBakery widget elements)
 4. Nothing fits → **stop and ask** whether to use a custom HTML block. Never silently.
 
-## Two write paths — use the one agreed in Phase 1
+## Write path: WPBakery only
 
-### A. WoodMart Gutenberg blocks (`wd/*`)
-The `woodmart/*` MCP abilities edit block content. Full rules (routing, `blockId`, finalization,
-batches, layouts): `references/gutenberg-abilities.md`. Summary:
-- Discover blocks with `woodmart/gutenberg-list-blocks`, then `woodmart/gutenberg-describe-block` for every
-  block you author. Use only attributes the describe call returns — never invent them.
-- Check `woodmart/gutenberg-search-templates` first: a WoodMart library template that matches a section
-  is usually the best start (adjust its texts/images/colors).
-- New page: `woodmart/create-content` (status draft) with `block_spec`. Existing non-empty page: read with
-  `woodmart/gutenberg-get-content`, change with `woodmart/gutenberg-edit-blocks` (only changed attributes,
-  with `expected_content_hash`). Never rebuild a whole page to change part of it.
-- Block writes are **queued**: ask the user to keep **WoodMart → Tools → AI Block Queue** open in wp-admin,
-  follow the response's `user_instruction`, and poll `woodmart/gutenberg-get-pending-batch` until
-  `finalized`. Call `woodmart/gutenberg-enable-finalization` when the batch is still a draft (not after
-  `create-content` with `block_spec`). One pending batch per target. On `conflicted`, re-read and redo.
-- Responsive values and styling: use the block's own responsive/style attributes.
+Every new page, post, HTML block and layout is built with **WPBakery shortcodes**, even on sites that
+also support Gutenberg. Don't create content with the block editor or `wd/*` blocks.
+(`references/gutenberg-abilities.md` is kept only for reading existing block content, logos and layout
+conditions.)
 
-### B. WPBakery (shortcodes)
+### WPBakery (shortcodes)
 WPBakery stores a page as shortcodes in the post content:
 `[vc_row][vc_column width="1/2"][woodmart_title ...][/vc_column][/vc_row]`.
 - Check with `mcp-adapter-get-ability-info` whether any create/update ability accepts **raw post content**.
   If yes: write the shortcode content to a Draft page, then read it back.
-- If no ability writes raw content: generate the full shortcode for the page (or per section), and give it
-  to the user to paste: page → **Backend Editor** → **Classic Mode** (or the text view) → paste → Update
+- If no ability writes raw content: paste it yourself with Claude in Chrome (page → **Backend Editor** →
+  **Classic Mode** → paste → Update, keep Draft) after the user approves, or give it to the user to paste: page → **Backend Editor** → **Classic Mode** (or the text view) → paste → Update
   (keep Draft). Then read the page back via MCP if possible.
 - Get exact shortcode tags and parameter names from the site, not from memory: ask the user to open one
   element in WPBakery and copy its shortcode, or inspect an existing page's content via MCP. WoodMart and
   WPBakery versions differ — **verify before using a tag**.
-- Spacing/colors/backgrounds go in `css=".vc_custom_...{...}"` Design Options (WPBakery generates these)
-  and the element's WoodMart style params, not in Custom CSS.
+- Spacing/colors/backgrounds go in `css=".vc_custom_...{...}"` Design Options (Desktop) and
+  `responsive_spacing` (Tablet/Mobile, plain base64) and the element's WoodMart style params, not in Custom
+  CSS. Exact format and pitfalls: `references/spacing-glow-playbook.md` §4.
+- After any MCP/REST content write, open the page in the WPBakery **backend editor → Update** (Claude in
+  Chrome) so the Desktop Design Options CSS is compiled.
 
 ## Map
 
-Tags in the last column are the usual WPBakery shortcodes — **verify on the site**. On block sites, find the
-matching `wd/*` block via `gutenberg-list-blocks`.
+Tags in the last column are the usual WPBakery shortcodes — **verify on the site**.
 
 | Design pattern | Element | Usual WPBakery tag (verify) |
 |----------------|---------|-----------------------------|

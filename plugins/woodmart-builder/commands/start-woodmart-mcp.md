@@ -13,9 +13,9 @@ Start the **woodmart-builder** workflow now.
    **WoodMart builder - the steps**
    1. Connect the site (MCP)
    2. Design source (Figma or screenshots)
-   3. Project questions (info site or shop, animations, blog, page list)
+   3. Project questions (info site or shop, Framer Motion animations, blog, page list)
    4. Global settings (fonts, colors, buttons, header/footer) - before → after, applied only after you approve
-   5. Build pages (WoodMart / WPBakery elements, all as Draft)
+   5. Build pages (WPBakery + WoodMart elements, Figma spacing in the Design tab, all as Draft)
    6. WooCommerce layouts (shops only, kept inactive)
    7. Review & handoff
 

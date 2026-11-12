@@ -18,10 +18,9 @@ Which layouts to build (only those in the design):
 1. `woodmart/list-layout-types` → use its live `type`, `block_categories`, `predefined`,
    `condition_types`. Don't hard-code types.
 2. Check `predefined` layouts: a predefined layout close to the design is usually the best start.
-3. Show the plan: layout type → sections → elements (from the list below / `gutenberg-list-blocks`
-   filtered by the type's `block_categories`).
-4. Create the layout **without conditions** (or inactive / Draft), build its content with the Gutenberg
-   abilities against its `target_id` (or WPBakery shortcodes in its content — per Phase 1 write path).
+3. Show the plan: layout type → sections → elements (WoodMart WPBakery Woo elements from the list below).
+4. Create the layout **without conditions** (or inactive / Draft) and build its content with **WPBakery
+   shortcodes** (never Gutenberg blocks), then Update it in the WPBakery backend editor.
 5. Read it back, report title / type / ID / edit link.
 6. **Do not** call `woodmart/set-layout-conditions` until the user explicitly approves. When they do:
    it **replaces the whole condition set** — read existing conditions first and send all that must

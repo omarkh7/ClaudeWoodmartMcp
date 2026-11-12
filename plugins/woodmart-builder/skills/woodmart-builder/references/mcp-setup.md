@@ -111,7 +111,7 @@ Check with `claude mcp list` / `/mcp`. Remove with `claude mcp remove woodmart-a
 3. Confirm the site: read the site name/URL (e.g. via a site-info/settings ability, or a
    `woodmart/search-content` call that returns permalinks) and show it back: "Connected to
    **Site Name** — https://domain". Ask the user to confirm it is the right site.
-4. Capability check (SKILL.md Phase 1 step 7): builder in use, write path, gaps.
+4. Capability check (SKILL.md Phase 1 step 7): WPBakery active, write path, gaps (Claude in Chrome covers wp-admin gaps).
 
 Useful adapter tools: `mcp-adapter-discover-abilities`, `mcp-adapter-get-ability-info`
 (call before first use of a write ability), `mcp-adapter-execute-ability` (`ability_name`, `parameters`).

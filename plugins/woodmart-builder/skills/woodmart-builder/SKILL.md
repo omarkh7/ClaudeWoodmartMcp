@@ -26,7 +26,38 @@ Never skip a question, never merge two phases, and never assume an answer.
    media ids or product/category ids — look them up.
 7. **Secrets never leave the server.** Never echo application passwords, API keys or tokens in chat,
    summaries, files, page content, HTML blocks or Custom JS. See Phase 5 → Security.
-8. **No theme-file edits.** PHP/template changes are handed to the user (see `references/php-overrides.md`).
+8. **No theme-file edits — one exception.** PHP/template changes are handed to the user (see
+   `references/php-overrides.md`). The only file you may edit yourself is
+   `wp-content/themes/woodmart-child/functions.php`, through Claude in Chrome, for snippets this skill
+   ships (e.g. the Motion enqueue in `references/animation.md`) — after showing the code, getting a clear
+   yes and backing up the current file content. Never the parent `woodmart` theme or plugins.
+9. **WPBakery always, never Gutenberg.** Build every new page, post, HTML block and layout with
+   **WPBakery** (shortcodes) + WoodMart WPBakery elements. Never create content with the block editor
+   or WoodMart Gutenberg (`wd/*`) blocks, even if the site supports them. If WPBakery isn't active on
+   the site, stop and ask the user to install/activate it before building.
+10. **Spacing/glow method.** Match Figma with the `references/spacing-glow-playbook.md` method on every
+   project: spacing in the Design tab (Desktop/Tablet/Mobile), CSS only for glows, grids and resets,
+   `wmb-` class prefix.
+
+## Claude in Chrome (always available)
+
+Claude in Chrome is always enabled for this workflow, so you can operate the site's wp-admin and front
+end directly. Load the tools in one `ToolSearch` call (`mcp__claude-in-chrome__*`: tabs_context_mcp,
+navigate, computer, read_page, find, form_input, javascript_tool, resize_window, read_console_messages).
+The user is already signed in, or signs in themselves — never type passwords.
+
+Use it for:
+- **Gaps MCP can't cover:** WPBakery backend editor → **Update** after an MCP content write (compiles
+  Design Options CSS — see the playbook §4), Theme Settings fields MCP can't write, media uploads,
+  creating CF7 forms, the child `functions.php` snippets allowed by rule 8.
+- **Measuring and verifying:** `resize_window` to 1440 / 1536 / 768 / 390 and `javascript_tool` with
+  `getBoundingClientRect()` to compare against Figma (playbook §1 and §8); console errors; no
+  horizontal scroll.
+- **Reading back** what MCP wrote, as it renders on the page.
+
+The global rules still apply in Chrome: show → apply → verify, back up first, Draft only, and ask
+before any click that saves, publishes or deletes. Prefer MCP when an ability can do the job; use the
+browser for what it can't.
 
 Keep a running **session log** (created items, settings before → after, CSS/JS added, PHP pending,
 open decisions). Phase 7 is generated from it.
@@ -57,8 +88,9 @@ Read `references/mcp-setup.md` now.
    the site name/URL back to the user. Do not continue until this works. On failure, follow the
    troubleshooting list in `references/mcp-setup.md`.
 7. **Capability check** — determine and tell the user:
-   - **Page builder in use:** WoodMart Gutenberg blocks (`wd/*`) or **WPBakery** (shortcodes). Ask the
-     user to confirm which one this site uses for new pages.
+   - **Page builder:** always **WPBakery** (rule 9). Confirm WPBakery is active (plugins list via MCP
+     or Chrome). If it isn't, stop and ask the user to install/activate it. Existing Gutenberg content
+     may be read, but nothing new is built with blocks.
    - **Write path:** which abilities can create/edit page content, theme settings, media, layouts.
    - **Gaps:** anything the plan needs that no ability can do (e.g. writing raw WPBakery shortcode
      content, uploading media, creating CF7 forms). For each gap, agree on the fallback now: the user
@@ -82,9 +114,10 @@ Ask: **Figma MCP or screenshots?**
 ## Phase 3 — Project questions (ask all, wait for all answers)
 
 1. Is the site **informative** or **WooCommerce**?
-2. Do you want **animations with Motion**? (Framer Motion is React-only; on WordPress use the vanilla
-   **Motion** library from motion.dev, loaded once via Theme Settings → Custom JS, light, honoring
-   `prefers-reduced-motion`.) If yes, read `references/animation.md` before building.
+2. Do you want **animations with Framer Motion**? (On WordPress this is **Motion** from motion.dev, the
+   vanilla-JS Framer Motion: enqueued once in `woodmart-child/functions.php`, animation code in Theme
+   Settings → Custom JS, light, honoring `prefers-reduced-motion`.) If yes, read
+   `references/animation.md` and add the enqueue before building.
 3. Is there a **blog**? If yes, the blog archive and single post are built too (WoodMart blog settings
    / layouts).
 4. **Page list** — propose the list you see in the design (name, slug, template, source frame) and
@@ -108,15 +141,14 @@ Read `references/global-settings.md` now.
 
 ## Phase 5 — Build pages
 
-Read `references/element-map.md` now. On a **Gutenberg** (`wd/*`) site also read
-`references/gutenberg-abilities.md` before the first write. Read `references/cf7-forms.md` before the first form and
+Read `references/element-map.md` and `references/spacing-glow-playbook.md` now. Read `references/cf7-forms.md` before the first form and
 `references/php-overrides.md` before any PHP. Build **one page at a time**: show the section plan
 (section → element), get approval, build, verify, report, then ask before starting the next page.
 
 **Status:** every page, post, HTML block or layout is **Draft**.
 
 **Elements (in this order):**
-1. WoodMart elements and WPBakery elements — always first.
+1. WoodMart WPBakery elements and WPBakery elements — always first (never Gutenberg blocks).
 2. WooCommerce elements/shortcodes.
 3. WordPress widgets.
 4. If nothing fits a section: **stop and ask** whether to build it as a custom HTML block. Never
@@ -124,6 +156,10 @@ Read `references/element-map.md` now. On a **Gutenberg** (`wd/*`) site also read
 
 - Use the elements' built-in options (WPBakery Design Options, WoodMart style/responsive settings) for
   spacing, colors, typography and backgrounds. Write CSS only when no setting can do it, minimal.
+- **Spacing and glows** follow `references/spacing-glow-playbook.md`: add the two global blocks
+  (spacing baseline `wmb-sp`, glow layer `wmb-glow`) once per site, put `wmb-sp wmb-<pp>-<name>` on
+  every section, set every padding/gap in the Design tab (Desktop/Tablet/Mobile), one CSS block per page,
+  then Update the page in the WPBakery backend editor and verify at 1440/1536/768/390.
 - Reusable parts (header pieces, footers, banners, repeated CTAs) → WoodMart **HTML Blocks**,
   inserted with the HTML Block element.
 
@@ -131,7 +167,8 @@ Read `references/element-map.md` now. On a **Gutenberg** (`wd/*`) site also read
 - Section/row/column backgrounds → WPBakery row/column background (Design Options) or WoodMart
   background options.
 - Inline images and icons → WoodMart Image / SVG / Icon elements.
-- **Never** use CSS `::before`/`::after` or custom CSS for background images.
+- **Never** use CSS `::before`/`::after` or custom CSS for background images. The only exception is the
+  playbook's gradient glows (`wmb-glow`, `wmb-glow-card`): CSS gradients, never image URLs.
 - Upload images to the Media Library with descriptive file names and alt text (or, if MCP can't
   upload, give the user a named list to upload and ask for the attachment IDs).
 
@@ -162,8 +199,9 @@ After each page: list the created items (title, type, ID, edit link, Draft), the
 
 ## Phase 6 — WooCommerce (only if WooCommerce site)
 
-Read `references/woocommerce-layouts.md` now (and `references/gutenberg-abilities.md` → Layouts on a
-Gutenberg site: `set-layout-conditions` replaces the whole condition set).
+Read `references/woocommerce-layouts.md` now. Build layouts with WPBakery + WoodMart Woo elements
+(rule 9). If you set layout conditions through an ability, note that `set-layout-conditions` replaces
+the whole condition set (`references/gutenberg-abilities.md` → Layouts).
 
 Ask which WoodMart **Layouts** to build: Shop/product archive, Single product, Cart, Checkout,
 My Account, Empty cart / Thank-you (if in the design). Build each from the design with WoodMart Woo
@@ -190,10 +228,12 @@ Give the user, headed with `Site: <domain>`:
 | `references/mcp-setup.md` | Phase 1, and any connection problem |
 | `references/global-settings.md` | Phase 4, and before any Theme Settings write |
 | `references/element-map.md` | Phase 5 section planning |
-| `references/gutenberg-abilities.md` | Gutenberg (`wd/*`) sites: before any block, content, layout or logo write |
+| `references/spacing-glow-playbook.md` | Phase 5, before the first section: Figma spacing, glows, grids, verification |
+| `references/gutenberg-abilities.md` | Only for reading existing block content, logos or layout conditions (no new Gutenberg builds) |
 | `references/cf7-forms.md` | Before building a form |
-| `references/animation.md` | If the user wants Motion animations |
+| `references/animation.md` | If the user wants Framer Motion / Motion animations |
 | `references/php-overrides.md` | Before handing over any PHP / template override |
 | `references/woocommerce-layouts.md` | Phase 6 |
 | `templates/mcp-server-entry.json` | Showing the user the config format |
+| `templates/woodmart-child-motion.php` | Motion enqueue snippet for `woodmart-child/functions.php` |
 | `scripts/add-woodmart-server.py` | Adding a site to Claude Desktop / Claude Code |

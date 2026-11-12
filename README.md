@@ -13,10 +13,12 @@ Claude works in gated phases. It asks you a question, waits for your answer and 
    optionally, to Claude Code. It then verifies the connection and checks which page builder and
    abilities the site has.
 2. **Design source:** Figma MCP or screenshots (desktop + mobile).
-3. **Project questions:** informative or WooCommerce, Motion animations, blog, and the page list.
+3. **Project questions:** informative or WooCommerce, Framer Motion (Motion) animations, blog, and the page list.
 4. **Global settings first:** fonts, colors, buttons, container and header/footer in WoodMart Theme
    Settings. Claude shows before → after and applies only after you approve.
-5. **Build pages:** WoodMart/WPBakery elements first. Element settings are used before any CSS.
+5. **Build pages:** always **WPBakery** (never Gutenberg) with WoodMart elements. Figma spacing is matched
+   in each element's Design tab (Desktop/Tablet/Mobile); CSS is used only for glows, grids and resets
+   (`wmb-` classes, see `references/spacing-glow-playbook.md`). Element settings are used before any CSS.
    Custom CSS/JS goes only in Theme Settings, forms use Contact Form 7, reusable parts become HTML
    Blocks, and **everything is created as Draft**.
 6. **WooCommerce:** WoodMart Layouts for shop, product, cart, checkout and account (kept inactive
@@ -24,8 +26,11 @@ Claude works in gated phases. It asks you a question, waits for your answer and 
 7. **Handoff:** a list of everything created, the settings changed, the CSS/JS added, any PHP still
    to add, and open decisions.
 
-Claude never edits theme files. PHP and template overrides are handed to you with the exact
-child-theme path, install steps, a test and a rollback.
+Claude never edits theme files, with one exception: with your OK it appends the skill's own snippets
+(the Motion enqueue) to `woodmart-child/functions.php` through Claude in Chrome, after backing it up.
+Other PHP and template overrides are handed to you with the exact child-theme path, install steps, a
+test and a rollback. Claude in Chrome is also used for wp-admin steps MCP can't do (WPBakery Update,
+uploads, CF7) and to measure the page against Figma at 1440/1536/768/390.
 
 ## Requirements
 
@@ -148,8 +153,9 @@ plugins/woodmart-builder/
   commands/start-woodmart-mcp.md         the /start-woodmart-mcp slash command
   skills/woodmart-builder/
     SKILL.md                             workflow (phases + rules)
-    references/                          setup, settings, element map, Gutenberg ability rules, Woo layouts, CF7, Motion, PHP handoff
+    references/                          setup, settings, element map, spacing & glow playbook, Gutenberg ability rules (read-only), Woo layouts, CF7, Motion, PHP handoff
     templates/mcp-server-entry.json      placeholder config (no real credentials)
+    templates/woodmart-child-motion.php  Motion (Framer Motion) enqueue for woodmart-child/functions.php
     scripts/add-woodmart-server.py       safe Claude Desktop / Claude Code config merge
 install.sh                               manual installer for macOS/Linux
 ```
